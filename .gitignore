@@ -1,1 +1,8 @@
-.todo
+*/node_modules/
+*/public/build/
+
+.DS_Store
+
+*.env
+*.rest
+*.todo
