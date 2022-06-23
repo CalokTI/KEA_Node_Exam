@@ -3,8 +3,8 @@
   import PrivateRoute from "./PrivateRoute.svelte";
 
   /* Store */
-  import { baseURL } from "./store/globalStore.js";
-  import { isLoggedIn } from "./store/userStore.js";
+  import { baseURL, runOnce } from "./store/globalStore.js";
+  import { socketID, isLoggedIn } from "./store/userStore.js";
 
   /* Pages */
   import Codelab from "./pages/codelab.svelte";
@@ -27,19 +27,21 @@
   /* Socket.IO */
   import io from "socket.io-client";
   let socket = io("http://localhost:3000");
+  socket.on("connect", () => {
+    $socketID = socket.id;
+  })
 
   socket.on("nextHelp", () => {
     notifications.info("🙋‍♂️ Help is on it's way", 10000);
   });
 
   let isLogin = false;
-  function loginTrue(){
+  function loginTrue() {
     isLogin = true;
   }
-  function loginFalse(){
+  function loginFalse() {
     isLogin = false;
   }
-
   function logout() {
     console.log("attempting logout");
     fetch($baseURL + "/users/logout", {
@@ -56,7 +58,10 @@
       }
     });
   }
-
+  if ($runOnce) {
+    notifications.info("This page uses cookies for necessary functions, by continuing you agree to cookies being store on your pc.", 20000)
+    $runOnce = false;
+  }
 </script>
 
 <Router>
@@ -76,14 +81,13 @@
         <Link to="/resources">Resources</Link>
       </div>
       {#if $isLoggedIn}
-      <div>
-        <Link to="tutor">Tutor</Link>
-      </div>
+        <div>
+          <Link to="/horse">Tutor</Link>
+        </div>
         <button on:click={logout}>🆓</button>
       {:else}
         <button on:click={loginTrue}>🔑</button>
       {/if}
-      
     </nav>
     <div id="lmgtfy">
       <Lmgtfy />
@@ -92,21 +96,26 @@
       <CurrentTutor />
     </div>
     <div id="page">
-      <Route path="/">
-        <Codelab />
+
+      <PrivateRoute path="/horse">
+        <Tutor {socket}/> 
+      </PrivateRoute>
+
+      <Route path="/resources">
+        <Tutor {socket}/><!--  <Resources /> -->
       </Route>
+
       <Route path="/schedule">
         <Schedule />
       </Route>
+
       <Route path="/help">
         <Help {socket} />
       </Route>
-      <Route path="/ressources">
-        <Resources />
+
+      <Route path="/">
+        <Codelab />
       </Route>
-      <PrivateRoute path="/tutor">
-        <Tutor />
-      </PrivateRoute>
     </div>
     <div id="queuelist">
       <QueueList {socket} />
@@ -117,8 +126,8 @@
   </main>
 </Router>
 {#if isLogin}
-        <Login on:closeLogin={loginFalse} />
-    {/if}
+  <Login on:closeLogin={loginFalse} />
+{/if}
 <Toastr />
 
 <!-- <style global> -->
@@ -188,6 +197,6 @@
     grid-column-end: 5;
     grid-row-start: 4;
     grid-row-end: 5;
-    background-color: purple;
+    background-color: greenyellow;
   }
 </style>

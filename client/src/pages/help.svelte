@@ -1,5 +1,6 @@
 <script>
   import { baseURL } from "../store/globalStore";
+  import { socketID } from "../store/userStore";
   import { notifications } from "../toastr/notifications.js";
 
   export let socket;
@@ -8,7 +9,7 @@
   let semester = "";
   let issue = "";
   let subject = "";
-  let id = socket.id;
+  let IDsocket = $socketID;
 
   let semesters = [1, 2, 3, 4, 5];
   let subjects = ["HTML", "CSS", "JS", "Database", "AWS/Azure", "Github"];
@@ -21,15 +22,15 @@
 
     const response = await fetch($baseURL + "/api/questions", {
       method: "POST",
-      body: JSON.stringify({ name, semester, issue, subject }),
+      body: JSON.stringify({ name, semester, issue, subject, IDsocket }),
       headers: {
         "content-type": "application/json",
       },
     });    
     
     if (response.ok) {
-      notifications.success("👏 Help request submitted", 5000);
-      socket.emit('addHelp', {name, subject, id})
+      notifications.success("👏 Help request submitted. Keep the page up for notifications.", 5000);
+      socket.emit('addHelp', {name, subject, IDsocket})
       
     } else {
       notifications.warning("⚠ Oh no! Something went wrong. ⚠", 5000);

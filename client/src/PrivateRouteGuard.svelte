@@ -7,13 +7,14 @@
   export let path;
   export let component;
 
-  const isAuthorized = false;
+  let isAuthorized = false;
 
   async function checkAuthorized() {
+    console.log("checkAuthorized");
     const res = await fetch($baseURL + `/users/authorized`, {
       method: "POST",
       credentials: "include",
-      headers: { "content-type": "application/json",}
+      headers: { "content-type": "application/json" },
     });
     if (res.ok) isAuthorized = true;
     return isAuthorized;
@@ -25,7 +26,7 @@
 {#await promise then}
   {#if isAuthorized}
     <slot />
-    <Route path={path} component={component} />
+    <Route {path} {component} />
   {:else}
     <Route path={"/"} component={Codelab} />
   {/if}

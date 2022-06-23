@@ -3,7 +3,6 @@
 
   let queueList = [];
   socket.on("updateQueue", ({ queue }) => {
-	console.log(queue);
 	queueList = queue;
   });
 </script>

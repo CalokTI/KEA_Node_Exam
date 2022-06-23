@@ -1,5 +1,7 @@
 import { Router } from "express";
 const router = Router();
+import dotenv from "dotenv";
+dotenv.config()
 
 import { comparePassword } from "../encryption/password.js";
 
@@ -9,7 +11,7 @@ import jwt from "jsonwebtoken";
 import { authenticateToken } from "../middleware/authentication.js";
 
 router.post('/users/authorized', authenticateToken, (req, res) => {
-    res.status(200);
+    res.sendStatus(200);
 })
 
 router.post('/users/login', async (req, res) => {
@@ -17,7 +19,9 @@ router.post('/users/login', async (req, res) => {
     const userExists = await db.users.findOne({ username });
 
     if (userExists && await comparePassword(password, userExists.hashPassword)) {
-        const accessToken = jwt.sign(userExists, process.env.ACCESS_TOKEN_SECRET)
+        const accessToken = jwt.sign(userExists, process.env.ACCESS_TOKEN_SECRET, {
+            expiresIn: process.env.JWT_EXPIRES_IN
+        })
         res.setHeader('Set-Cookie', cookie.serialize('jwt', accessToken, {path: '/', httpOnly: true, secure: true, sameSite:"none"}));
         res.status(200).send("Success");
     }

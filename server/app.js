@@ -30,7 +30,7 @@ let queue = []
 
 io.sockets.on('connection', (socket) => {
     // https://stackoverflow.com/questions/43280613/set-username-in-socket-io-connection
-    console.log("socket", socket.id, "connected");
+    console.log("socket id", socket.id, "connected");
     io.emit('updateQueue', { queue })
 
     socket.on('newMessage', (message) => {
@@ -43,12 +43,12 @@ io.sockets.on('connection', (socket) => {
 
     socket.on('addHelp', (help) => {
         queue.push(help)
-        console.log(help.id)
         io.emit('updateQueue', { queue })
     })
 
-    socket.on('nextHelp', () => {
-        io.sockets.id(queue[0].id).emit('timeHelp')
+    socket.on('wake', (socketID) => {
+        console.log("broadcasting to:",socketID.socketID)
+        io.to(socketID.socketID).emit('nextHelp')
     })
 
     socket.on('popHelp', () => {
