@@ -39,9 +39,11 @@
     if (response.ok) {
       notifications.success("Help request closed.", 5000);
       close();
-
     } else {
-      notifications.warning("⚠ Something went wrong with closing the help request. ⚠", 5000);
+      notifications.warning(
+        "⚠ Something went wrong with closing the help request. ⚠",
+        5000
+      );
     }
   }
 
@@ -53,14 +55,20 @@
 <div class="background" on:click={close} transition:fade />
 <div class="finish-box" transition:fly={{ y: -500 }}>
   <h3>Finish</h3>
-  <div>{name}</div>
-  <div>{semester}</div>
-  <div>{subject}</div>
-  <div>{issue}</div>
+  <div>{name} - {semester}</div>
+  <div>subject: {subject}</div>
+  <div>Description: {issue}</div>
   <form on:submit|preventDefault={submit}>
-    <input bind:value={solution} required type="text" placeholder="Solution" />
-    <button type="submit">Finish and close</button>
-    <button on:click={close}>Cancel</button>
+    <textarea
+      bind:value={solution}
+      required
+      type="text"
+      placeholder="Solution"
+    />
+    <div id="buttons">
+      <button type="submit">Finish and close</button>
+      <button on:click={close}>Cancel</button>
+    </div>
   </form>
 </div>
 
@@ -75,6 +83,8 @@
     z-index: 2;
   }
   .finish-box {
+    padding: 15px;
+    text-align: left;
     position: fixed;
     top: 50%;
     left: 50%;
@@ -84,11 +94,19 @@
     color: white;
     background-color: rgb(35, 50, 73);
     z-index: 3;
-    padding: auto;
-    border: solid 2px black;
+    border: solid 2px rgb(234, 80, 69);
     border-radius: 5px;
   }
   .finish-box > h3 {
     margin: auto;
+  }
+
+  textarea {
+    height: 4em;
+  }
+
+  form {
+    position: absolute;
+    bottom: 15px;
   }
 </style>

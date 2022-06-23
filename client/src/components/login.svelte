@@ -63,6 +63,8 @@
     z-index: 2;
   }
   .login-box {
+    padding: 15px;
+    text-align: left;
     position: fixed;
     top: 50%;
     left: 50%;
@@ -70,10 +72,10 @@
     height: 200px;
     width: 400px;
     color: white;
-    background-color: grey;
+    background-color: rgb(35, 50, 73);
     z-index: 3;
     padding: auto;
-    border: solid 2px black;
+    border: solid 2px rgb(234, 80, 69);
     border-radius: 5px;
   }
   .login-box > h3 {

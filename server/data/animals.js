@@ -1,3 +1,5 @@
+/* source: https://gist.github.com/borlaym/585e2e09dd6abd9b0d0a */
+
 const animals = [
     "Aardvark",
     "Albatross",
