@@ -1,7 +1,7 @@
 import { MongoClient } from "mongodb";
 import dotenv from "dotenv";
 
-dotenv.config() //loads data from .env
+dotenv.config()
 
 const url = process.env.MONGO_URL;
 const dbName = process.env.MONGO_DB;

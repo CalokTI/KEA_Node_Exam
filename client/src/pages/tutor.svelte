@@ -17,7 +17,6 @@
 
   fetchActives();
 
-
   function wake(socketID){
 	socket.emit('wake', {socketID})
   }

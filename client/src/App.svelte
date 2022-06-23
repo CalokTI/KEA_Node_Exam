@@ -139,7 +139,6 @@
 {/if}
 <Toastr />
 
-<!-- <style global> -->
 <style>
   main {
     text-align: center;

@@ -10,7 +10,6 @@
   let isAuthorized = false;
 
   async function checkAuthorized() {
-    console.log("checkAuthorized");
     const res = await fetch($baseURL + `/users/authorized`, {
       method: "POST",
       credentials: "include",

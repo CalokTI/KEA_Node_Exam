@@ -4,6 +4,8 @@
 <h1>Resources</h1>
 <div id="resources">
   <a href="https://the-echoplex.net/flexyboxes">Flexyboxes</a>
+  <a href="https://cssgridgarden.com/">https://cssgridgarden.com/</a>
+  <a href="https://flexboxfroggy.com/">https://flexboxfroggy.com/</a>
 </div>
 
 <style>

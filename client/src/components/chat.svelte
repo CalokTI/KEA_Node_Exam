@@ -1,11 +1,8 @@
 <script>
   export let socket;
 
-  /* timestamp(HH:MM) | socket.username: message */
   $: messages = [];
   let message = "";
-
-  
 
   function sendMessage() {
     let date = new Date();

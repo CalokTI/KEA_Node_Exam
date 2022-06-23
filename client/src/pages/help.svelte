@@ -15,10 +15,6 @@
   let subjects = ["Java", "Github", "HTML", "CSS", "Springboot", "Thymeleaf", "Database", "AWS/Azure", "JS", "ASP.net", "Node.js", "Machine Learning", "Python", "IT Drift", "React Native", "Other"];
 
   async function submit() {
-    //clear input -> redirect to resources
-    //submit help request
-    //update queue
-    //toastr?
 
     const response = await fetch($baseURL + "/api/questions", {
       method: "POST",
@@ -29,10 +25,11 @@
     });
 
     if (response.ok) {
-      notifications.success(
-        "👏 Help request submitted. Keep the page up for notifications.",
-        5000
-      );
+      notifications.success("👏 Help request submitted. Keep the page up for notifications.", 5000);
+      name = "";
+      semester = "";
+      issue = "";
+      subject = "";
       socket.emit("addHelp", { name, subject, IDsocket });
     } else {
       notifications.warning("⚠ Oh no! Something went wrong. ⚠", 5000);
