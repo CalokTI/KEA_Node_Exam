@@ -1,31 +1,61 @@
 <script>
   export let socket;
 
-  $: messages = ["add user", "add time", "add message", "make chat smaller"];
+  /* timestamp(HH:MM) | socket.username: message */
+  $: messages = [];
   let message = "";
 
+  
+
   function sendMessage() {
-    socket.emit("newMessage", { data: message });
+    let date = new Date();
+    let time = date.toLocaleTimeString('da-DK', {hour: '2-digit', minute: '2-digit', second: '2-digit'})
+    let username = socket.username;
+    socket.emit("newMessage", { data: message, username: username, time: time });
+    message = '';
   }
 
   socket.on("chatMessage", ({ message }) => {
-    messages = [...messages, message.data];
+    let newMessage = message.data;
+    let username = message.username;
+    let time = message.time
+    messages = [...messages, { time, username, newMessage }];
   });
 </script>
 
-<div>
-  <ul id="messages" />
+<div id="chatbox">
+  <ul id="messages">
   {#each messages as message}
-    <li>{message}</li>
+    <li>{message.time} | {message.username}: {message.newMessage}</li>
   {/each}
-  <form id="form" action="javascript:void(0);">
+  </ul>
+
+  <div id="form">
     <input id="input" autocomplete="off" bind:value={message} />
     <button on:click={sendMessage}>Send</button>
-  </form>
+  </div>
 </div>
 
 <style>
+  #chatbox {
+    height: 200px;
+    display: grid;
+    grid-template-rows: auto 3rem;
+  }
+
+  #messages {
+    padding: 15px;
+    text-align: left;
+    grid-row-start: 1;
+    grid-row-end: 2;
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: auto;
+  }
+
   #form {
+    grid-row-start: 2;
     background: rgba(0, 0, 0, 0.15);
     padding: 0.25rem;
     display: flex;
@@ -51,17 +81,5 @@
     border-radius: 3px;
     outline: none;
     color: #fff;
-  }
-
-  #messages {
-    list-style-type: none;
-    margin: 0;
-    padding: 0;
-  }
-  #messages > li {
-    padding: 0.5rem 1rem;
-  }
-  #messages > li:nth-child(odd) {
-    background: #efefef;
   }
 </style>

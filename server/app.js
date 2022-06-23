@@ -23,10 +23,17 @@ const PORT = process.env.PORT || 3000;
 const server = createServer(app);
 const io = new Server(server);
 
+import animals from "./data/animals.js";
 let queue = [];
 
 io.sockets.on("connection", (socket) => {
-  // https://stackoverflow.com/questions/43280613/set-username-in-socket-io-connection
+  
+    if (!socket.username) {
+    socket.username =
+      animals[Math.floor(Math.random() * animals.length)] +
+      "" + Math.floor(Math.random() * 100);
+    io.to(socket.id).emit('username', socket.username)
+  }
   io.emit("updateQueue", { queue });
 
   socket.on("newMessage", (message) => {

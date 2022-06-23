@@ -31,6 +31,10 @@
     $socketID = socket.id;
   });
 
+  socket.on("username", (username) => {
+    socket.username = username;
+  });
+
   socket.on("nextHelp", () => {
     notifications.info("🙋‍♂️ Help is on it's way", 10000);
   });
@@ -88,7 +92,7 @@
       </div>
       {#if $isLoggedIn}
         <div class="link-wrapper">
-          <Link class="link" to="/horse">Tutor</Link>
+          <Link class="link" to="/tutor">Tutor</Link>
         </div>
         <div class="log" on:click={logout}>🆓</div>
       {:else}
@@ -102,12 +106,12 @@
       <CurrentTutor />
     </div>
     <div id="page">
-      <PrivateRoute path="/horse">
+      <PrivateRoute path="/tutor">
         <Tutor {socket} />
       </PrivateRoute>
 
       <Route path="/resources">
-        <Tutor {socket} /><!--  <Resources /> -->
+       <Resources />
       </Route>
 
       <Route path="/schedule">
@@ -247,6 +251,8 @@
     grid-column-end: 5;
     grid-row-start: 6;
     grid-row-end: 7;
+    min-height: 200px;
+    max-height: 200px;
     background-color: white;
   }
 </style>
