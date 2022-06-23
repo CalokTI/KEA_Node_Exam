@@ -7,7 +7,7 @@
 </script>
 
 <div>
-  <p>Got nothing to do while waiting?</p>
+  <p>Check resources or </p>
   <input type="text" bind:value={inputSearch} placeholder="type here" />
   <button on:click={lmgtfy}>Help yourself</button>
 </div>
@@ -15,7 +15,7 @@
 <style>
   div {
     text-align: center;
-    padding: 1em;
+    padding: 0.5em;
     max-width: 240px;
     margin: 0 auto;
   }
@@ -24,7 +24,6 @@
     border: none;
     padding: 0 1rem;
     flex-grow: 1;
-    border-radius: 0.2rem;
     margin: 0.25rem;
     width: 80%;
   }
@@ -37,9 +36,12 @@
     border: none;
     padding: 0 1rem;
     flex-grow: 1;
-    border-radius: 0.2rem;
     margin: 0.25rem;
+    padding-bottom: 0.15rem;
     width: 80%;
+    color: white;
+    font-weight: bold;
+    background-color: rgb(35, 50, 73);
   }
 
   @media (min-width: 640px) {

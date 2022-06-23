@@ -24,15 +24,14 @@
 
   function finish(active){
     finishActive = active;
+    let socketID = finishActive.IDsocket;
     finishWindowActive = true;
-    //hent id til patch
-    //socket update
+    socket.emit('popHelp', { socketID })
   }
 
 </script>
 
 <h1>Tutor page</h1>
-<p>list of actives, edit/update</p>
 <button on:click={fetchActives}>refresh🔃</button>
 <table>
   <th class="name">Name</th>
@@ -52,7 +51,7 @@
 </table>
 
 {#if finishWindowActive}
-  <FinishWindow {...finishActive} on:closeFinishWindow={() => {finishWindowActive = false}} />
+  <FinishWindow {...finishActive} on:closeFinishWindow={() => {finishWindowActive = false; fetchActives()}} />
 {/if}
 
 
